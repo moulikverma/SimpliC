@@ -3,3 +3,5 @@
 
 # Ignore all output files (.out)
 *.out
+
+.vscode/
