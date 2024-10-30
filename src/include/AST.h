@@ -6,7 +6,8 @@ typedef enum{
     AST_VARIABLE_DEFINITION,
     AST_VARIABLE,
     AST_FUNCTION_CALL,
-    AST_STRING
+    AST_STRING,
+    AST_COMPOUND
 }ast_type;
 
 typedef struct AST_STRUCT{
@@ -27,6 +28,10 @@ typedef struct AST_STRUCT{
 
     // AST string 
     char* string_value;
+
+    // AST compound
+    struct AST_STRUCT** compound_value;
+    size_t compound_size;
 
 
 }AST_T;

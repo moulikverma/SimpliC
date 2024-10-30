@@ -19,4 +19,8 @@ AST_T* init_AST(ast_type type){
     // AST string 
     ast-> string_value = NULL;
     return ast;
+
+    /* AST_COMPOUND */
+    ast->compound_value = NULL;
+    ast->compound_size = 0;
 }
