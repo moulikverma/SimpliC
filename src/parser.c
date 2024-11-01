@@ -26,7 +26,7 @@ void parser_eat(parser_T* parser, int token_type)
     else
     {
         printf(
-            "Unexpected token `%s`, with type %d",
+            "Unexpected token `%s`, with type %d\n",
             parser->current_token->value,
             parser->current_token->type
         );
@@ -91,13 +91,13 @@ AST_T* parser_parse_expr(parser_T* parser, scope_T* scope)
     return init_ast(AST_NOOP);
 }
 
-AST_T* parser_parse_factor(parser_T* parser, scope_T* scope)
-{
-}
+AST_T* parser_parse_factor(parser_T* parser, scope_T* scope){}
 
-AST_T* parser_parse_term(parser_T* parser, scope_T* scope)
-{
-}
+
+AST_T* parser_parse_term(parser_T* parser, scope_T* scope){}
+
+
+
 
 AST_T* parser_parse_function_call(parser_T* parser, scope_T* scope)
 {
@@ -130,6 +130,12 @@ AST_T* parser_parse_function_call(parser_T* parser, scope_T* scope)
 
     return function_call;
 }
+
+
+
+
+
+
 
 AST_T* parser_parse_variable_definition(parser_T* parser, scope_T* scope)
 {
