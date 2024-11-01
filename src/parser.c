@@ -102,11 +102,26 @@ AST_T* parser_parse_term(parser_T* parser, scope_T* scope){}
 AST_T* parser_parse_function_call(parser_T* parser, scope_T* scope)
 {
     AST_T* function_call = init_ast(AST_FUNCTION_CALL);
-
     function_call->function_call_name = parser->prev_token->value;
     parser_eat(parser, TOKEN_LPAREN); 
 
+    if (parser->current_token->type == TOKEN_RPAREN) {
+        // printf("No arguments detected for function call: %s\n", function_call->function_call_name);
+        
+        parser_eat(parser, TOKEN_RPAREN); // Consume the closing parenthesis
+        
+        function_call->scope = scope; // Set the scope for the function call
+        function_call->function_call_arguments = NULL; // No arguments
+        function_call->function_call_arguments_size = 0; // Size zero
+        
+        return function_call; // Return the function call AST node
+    }
+
     function_call->function_call_arguments = calloc(1, sizeof(struct AST_STRUCT*));
+    if (!function_call->function_call_arguments) {
+        fprintf(stderr, "Memory allocation failed for function call arguments.\n");
+        exit(1);
+    }
 
     AST_T* ast_expr = parser_parse_expr(parser, scope);
     function_call->function_call_arguments[0] = ast_expr;
@@ -133,10 +148,6 @@ AST_T* parser_parse_function_call(parser_T* parser, scope_T* scope)
 
 
 
-
-
-
-
 AST_T* parser_parse_variable_definition(parser_T* parser, scope_T* scope)
 {
     parser_eat(parser, TOKEN_ID); // var
@@ -154,55 +165,65 @@ AST_T* parser_parse_variable_definition(parser_T* parser, scope_T* scope)
     return variable_definition;
 }
 
-AST_T* parser_parse_function_definition(parser_T* parser, scope_T* scope)
-{
+AST_T* parser_parse_function_definition(parser_T* parser, scope_T* scope) {
     AST_T* ast = init_ast(AST_FUNCTION_DEFINITION);
-    parser_eat(parser, TOKEN_ID); // function
-
+    
+    parser_eat(parser, TOKEN_ID); // Skip the 'function' keyword
+    
     char* function_name = parser->current_token->value;
-    ast->function_definition_name = calloc(
-            strlen(function_name) + 1, sizeof(char)
-    );
+    ast->function_definition_name = calloc(strlen(function_name) + 1, sizeof(char));
     strcpy(ast->function_definition_name, function_name);
 
-    parser_eat(parser, TOKEN_ID); // function name
+    parser_eat(parser, TOKEN_ID); // Consume the function name
 
-    parser_eat(parser, TOKEN_LPAREN);
+    parser_eat(parser, TOKEN_LPAREN); // Expect the opening parenthesis
 
-    ast->function_definition_args =
-        calloc(1, sizeof(struct AST_STRUCT*));
+    // Check for empty argument list
+    if (parser->current_token->type == TOKEN_RPAREN) {
+        ast->function_definition_args = NULL; // No arguments
+        ast->function_definition_args_size = 0; // Size zero
+        parser_eat(parser, TOKEN_RPAREN); // Consume the closing parenthesis
+    } else {
+        // Allocate an initial size for arguments
+        ast->function_definition_args = NULL; 
+        ast->function_definition_args_size = 0;
 
-    AST_T* arg = parser_parse_variable(parser, scope);
-    ast->function_definition_args_size += 1;
-    ast->function_definition_args[ast->function_definition_args_size-1] = arg;
-
-    while (parser->current_token->type == TOKEN_COMMA)
-    {
-        parser_eat(parser, TOKEN_COMMA);
-
-        ast->function_definition_args_size += 1;
-
-        ast->function_definition_args =
-            realloc(
-                    ast->function_definition_args,
-                    ast->function_definition_args_size * sizeof(struct AST_STRUCT*)
-                   );
-
+        // Parse the first argument
         AST_T* arg = parser_parse_variable(parser, scope);
-        ast->function_definition_args[ast->function_definition_args_size-1] = arg;
+        ast->function_definition_args_size += 1;
+        ast->function_definition_args = realloc(
+            ast->function_definition_args,
+            ast->function_definition_args_size * sizeof(AST_T*)
+        );
+        ast->function_definition_args[0] = arg;
+
+        // Parse additional arguments
+        while (parser->current_token->type == TOKEN_COMMA) {
+            parser_eat(parser, TOKEN_COMMA); // Consume the comma
+
+            // Parse the next argument
+            arg = parser_parse_variable(parser, scope);
+            ast->function_definition_args_size += 1;
+            ast->function_definition_args = realloc(
+                ast->function_definition_args,
+                ast->function_definition_args_size * sizeof(AST_T*)
+            );
+            ast->function_definition_args[ast->function_definition_args_size - 1] = arg;
+        }
+
+        parser_eat(parser, TOKEN_RPAREN); // Consume the closing parenthesis
     }
 
-    parser_eat(parser, TOKEN_RPAREN);
+    parser_eat(parser, TOKEN_LBRACE); // Expect opening brace for the function body
     
-    parser_eat(parser, TOKEN_LBRACE);
-    
+    // Parse the function body
     ast->function_definition_body = parser_parse_statements(parser, scope);
+    
+    parser_eat(parser, TOKEN_RBRACE); // Consume closing brace
+    
+    ast->scope = scope; // Set the scope
 
-    parser_eat(parser, TOKEN_RBRACE);
-
-    ast->scope = scope;
-
-    return ast;
+    return ast; // Return the constructed AST node for the function definition
 }
 
 AST_T* parser_parse_variable(parser_T* parser, scope_T* scope)
@@ -249,3 +270,4 @@ AST_T* parser_parse_id(parser_T* parser, scope_T* scope)
         return parser_parse_variable(parser, scope);
     }
 }
+
