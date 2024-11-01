@@ -69,9 +69,12 @@ printName("Rahul Chowdhury");
 
 <p align="left">To Run </p>
 
-- **Run:** ./simplic.out <filepath>/file_name.simplic
+- **Run:** `./simplic.out <filepath>/file_name.simplic`
 
-- **Example:** ```./simplic.out examples/test.simplic```
+- **Example:** 
+```
+./simplic.out examples/test.simplic
+```
 
 
 ## Language Structure
