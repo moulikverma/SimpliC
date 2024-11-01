@@ -1,7 +1,8 @@
-function dosomething()
-{
+function dosomething(){
     print("This is our function calling!");
 };
+
+print("Rahul");
 
 dosomething();
 dosomething();
@@ -12,3 +13,5 @@ dosomething();
 dosomething();
 
 yo();
+
+

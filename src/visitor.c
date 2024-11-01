@@ -12,11 +12,14 @@ static AST_T* builtin_function_print(visitor_T* visitor, AST_T** args, int args_
 
         switch (visited_ast->type)
         {
-            case AST_STRING: printf("%s\n", visited_ast->string_value); break;
+            case AST_STRING: printf("%s", visited_ast->string_value); break;
             default: printf("%p\n", visited_ast); break;
         }
+        if (i < args_size - 1) {
+            printf(" ");
+        }
     }
-
+    printf("\n");
     return init_ast(AST_NOOP);
 }
 
