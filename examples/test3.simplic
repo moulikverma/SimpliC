@@ -1,11 +1,17 @@
-function dosomething(x, y){
-    print(x,y);
-};
-dosomething("hello", "world");
-
-
-function printName(name){
-    print(name);
+function dosomething(){
+    print("This is our function calling!");
 };
 
-printName("Rahul Chowdhury");
+print("Rahul");
+
+dosomething();
+dosomething();
+dosomething();
+dosomething();
+dosomething();
+dosomething();
+dosomething();
+
+yo();
+
+

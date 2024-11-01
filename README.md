@@ -49,11 +49,8 @@ make
 
 <h2 align="center">Usage</h2>
 
-<p align="left">Create a new file (<code>file_name.simplic</code>)</p>
-
-
-<p align="left">Edit the file with a text editor.
-</p>
+- **Create a new file**: file_name.simplic
+- **Code** : Edit the file with a text editor.
 
 ```
 function dosomething(x, y){
@@ -72,10 +69,9 @@ printName("Rahul Chowdhury");
 
 <p align="left">To Run </p>
 
-```
-./simplic.out examples/test.simplic
+- **Run:** ./simplic.out <filepath>/file_name.simplic
 
-```
+- **Example:** ```./simplic.out examples/test.simplic```
 
 
 ## Language Structure
@@ -84,12 +80,7 @@ printName("Rahul Chowdhury");
   Example: `var name = "Rahul";`
 
 - **Function Declaration**: Use `function` to define functions.  
-  Example: 
-  ```
-  function myFunction() {
-      // function body
-  };
-  ```
+  Example: `function myFunction() { // function body};`
 - **Output Printing**: Use `print()` to display output to the console.  
   Example: `print("Hello, World!");`
 
@@ -97,10 +88,7 @@ printName("Rahul Chowdhury");
   Example: `print("First name:", fname, "Last name:", lname);`
 
 - **Variable Printing**: You can print variables directly.  
-  Example: 
-  ```plaintext
-  var name = "Rahul";
-  print(name);
+  Example: `var name = "Rahul"; print(name);`
 
 ### Basic Variable Declaration and Printing
 
