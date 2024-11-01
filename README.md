@@ -5,8 +5,7 @@
 </p>
 <br>
 <p>SimpliC is a simplified programming language based on C, designed for educational purpose. The language retains core principles of a interpretated language, focusing on ease of use, readability, and minimized syntax while providing a flexible foundation for learning and development.</p>
-<br>
-<br>
+
 
 ## Features
 
@@ -30,7 +29,6 @@
 
 
 <h2 align="center">Installation</h2>
-<br>
 
 ### Clone the Repository
 ```
@@ -48,7 +46,7 @@ make clean
 ``` 
 make
 ```
-<br><br>
+
 <h2 align="center">Usage</h2>
 
 <p align="left">Create a new file (<code>file_name.simplic</code>)</p>
